@@ -23,17 +23,8 @@ app.get('/funcionarios', async (req, res) => {
           }
           res.setHeader('Content-Type', 'application/json');
           let response = result.rows
-          let responseArr = [];
-          for(var i in response){
-          let responseTransformado = {
-            id: response[i].id,
-            name: response[i].nome,
-            function: response[i].cargo,
-            email: response[i].email
-          }
-          responseArr.push(responseTransformado)
           res.status(200).json(response); // Retorna o primeiro resultado encontrado
-        }})
+        })
         .catch(err => {
           console.error('Erro ao consultar o banco de dados:', err);
           res.status(500).json({ message: 'Erro ao consultar o banco de dados' });
@@ -41,11 +32,11 @@ app.get('/funcionarios', async (req, res) => {
     });
         // Rota de exemplo (POST)
         app.post('/funcionarios', (req, res) => {
-            const { id, nome, cargo, email } = req.body; // Pegando os dados do corpo da requisição
+            const { nome, cargo, email } = req.body; // Pegando os dados do corpo da requisição
 
   
             // Consulta SQL para inserir os dados na tabela
-            const query = 'INSERT INTO funcionarios (id, nome, cargo, email) VALUES ($1, $2, $3, $4)';
+            const query = 'INSERT INTO funcionarios (nome, cargo, email) VALUES ($1, $2, $3) RETURNING id';
             const values = [id, nome, cargo, email];
             client.query(query, values)
             .then(() => {
