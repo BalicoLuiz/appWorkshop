@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa de API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            text-align: center;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Pesquisar Nome da API</h1>
+        <form id="api-form">
+            <label for="api-name">Nome da API:</label><br>
+            <input type="text" id="nome_api" name="nome_api" placeholder="Digite o nome da API" required><br>
+            <button type="submit">Pesquisar</button>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('api-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede o envio padrão do formulário
+
+            const apiName = document.getElementById('nome_api').value; // Captura o valor do campo de entrada
+            if (apiName) {
+                fetchAPI(apiName); // Chama a função para fazer a requisição
+            }
+        });
+
+        function fetchAPI(nome_api) {
+            const url = `https://appworkshop-production.up.railway.app/proxys?nome_api=${nome_api}`; // Exemplo de URL de uma API pública
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    displayResult(data);
+                })
+                .catch(error => {
+                    console.error('Erro ao buscar API:', error);
+                    document.getElementById('result').innerHTML = 'Houve um erro ao tentar buscar a API.';
+                });
+        }
+
+        function displayResult(data) {
+            const resultDiv = document.getElementById('result');
+            if (data.entries && data.entries.length > 0) {
+                let resultHTML = '<h3>Resultados encontrados:</h3><ul>';
+                data.entries.forEach(entry => {
+                    resultHTML += `<li><strong>${entry.API}</strong>: ${entry.Description} (<a href="${entry.Link}" target="_blank">Link</a>)</li>`;
+                });
+                resultHTML += '</ul>';
+                resultDiv.innerHTML = resultHTML;
+            } else {
+                resultDiv.innerHTML = 'Nenhum resultado encontrado para o nome da API.';
+            }
+        }
+    </script>
+
+</body>
+</html>
