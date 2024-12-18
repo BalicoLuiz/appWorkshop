@@ -10,12 +10,12 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 
 app.get('/funcionarios', async (req, res) => {
-        const { name } = req.query;
-        if (!name) {
-            return res.status(400).send('O parâmetro "name" é obrigatório');
+        const { nome } = req.query;
+        if (!nome) {
+            return res.status(400).send('O parâmetro "nome" é obrigatório');
           }
         const query = 'SELECT * FROM funcionarios WHERE nome ILIKE $1';
-        const values = [`%${name}%`];
+        const values = [`%${nome}%`];
         client.query(query, values)
         .then(result => {
           if (result.rows.length === 0) {
@@ -37,7 +37,7 @@ app.get('/funcionarios', async (req, res) => {
   
             // Consulta SQL para inserir os dados na tabela
             const query = 'INSERT INTO funcionarios (nome, cargo, email) VALUES ($1, $2, $3) RETURNING id';
-            const values = [id, nome, cargo, email];
+            const values = [nome, cargo, email];
             client.query(query, values)
             .then(() => {
               res.status(201).json({ message: 'Usuário inserido com sucesso!' });
