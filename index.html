@@ -67,10 +67,8 @@
             <input type="text" id="nome_api" name="nome_api" placeholder="Digite o nome da API" required><br>
             <button type="submit">Pesquisar</button>
         </form>
-
         <div id="result"></div>
     </div>
-
     <script>
         document.getElementById('api-form').addEventListener('submit', function(event) {
             event.preventDefault(); // Impede o envio padrão do formulário
@@ -82,7 +80,7 @@
         });
 
         function fetchAPI(nome_api) {
-            const url = `https://appworkshop-production.up.railway.app/proxys?nome_api=${nome_api}`; // Exemplo de URL de uma API pública
+            const url = `https://cors-anywhere.herokuapp.com/https://appworkshop-production.up.railway.app/proxys?nome_api=${nome_api}`; // Exemplo de URL de uma API pública
 
             fetch(url)
                 .then(response => response.json())
@@ -104,10 +102,12 @@
                 });
                 resultHTML += '</ul>';
                 resultDiv.innerHTML = resultHTML;
-            } else {
+           } else {
                 resultDiv.innerHTML = 'Nenhum resultado encontrado para o nome da API.';
             }
+            
         }
+        
     </script>
 
 </body>

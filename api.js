@@ -21,7 +21,6 @@ app.get('/proxys', async (req, res) => {
           if (result.rows.length === 0) {
             return res.status(404).json({ message: 'nome_api não encontrado.' });
           }
-          res.setHeader('Content-Type', 'application/json');
           let response = result.rows
           res.status(200).json(response); // Retorna o primeiro resultado encontrado
         })
