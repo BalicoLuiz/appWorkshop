@@ -14,7 +14,7 @@ app.get('/proxys', async (req, res) => {
         if (!nome_api) {
             return res.status(400).send('O parâmetro "nome_api" é obrigatório');
           }
-        const query = 'SELECT * FROM funcionarios WHERE nome ILIKE $1';
+        const query = 'SELECT * FROM tb_proxys WHERE nome ILIKE $1';
         const values = [`%${nome_api}%`];
         client.query(query, values)
         .then(result => {
@@ -36,7 +36,7 @@ app.get('/proxys', async (req, res) => {
 
   
             // Consulta SQL para inserir os dados na tabela
-            const query = 'INSERT INTO funcionarios (nome_api, metodos) VALUES ($1, $2) RETURNING id';
+            const query = 'INSERT INTO tb_proxys (nome_api, metodos) VALUES ($1, $2) RETURNING id';
             const values = [nome_api, metodos];
             client.query(query, values)
             .then(() => {
