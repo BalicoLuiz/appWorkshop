@@ -14,7 +14,7 @@ app.get('/proxys', async (req, res) => {
         if (!nome_api) {
             return res.status(400).send('O parâmetro "nome_api" é obrigatório');
           }
-        const query = 'SELECT * FROM tb_proxys WHERE nome ILIKE $1';
+        const query = 'SELECT * FROM tb_proxys WHERE nome_api ILIKE $1';
         const values = [`%${nome_api}%`];
         client.query(query, values)
         .then(result => {
