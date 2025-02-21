@@ -9,10 +9,11 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 
+
 app.get('/proxys', async (req, res) => {
         const { nome_api } = req.query;
         if (!nome_api) {
-            return res.status(400).send('O parâmetro "nome_api" é obrigatório');
+            return res.status(400).send('O parâmetro "nome_api" é obrigatório 1');
           }
         const query = 'SELECT * FROM proxys WHERE nome_api ILIKE $1';
         const values = [`%${nome_api}%`];
@@ -29,6 +30,7 @@ app.get('/proxys', async (req, res) => {
           res.status(500).json({ message: 'Erro ao consultar o banco de dados' });
         });
     });
+    
         // Rota de exemplo (POST)
         app.post('/proxys', (req, res) => {
             const { nome_api, metodos } = req.body; // Pegando os dados do corpo da requisição
